@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mil Pasta – Carta Digital</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ------------------------------------------------------------------ */
+    /* VARIABLES DE PALETA                                               */
+    /* ------------------------------------------------------------------ */
+    :root {
+      --color-red:   #8B0000;   /* rojo vino */
+      --color-cream: #F5F5DC;   /* crema */
+      --color-gold:  #D4AF37;   /* dorado */
+      --color-olive: #556B2F;   /* verde oliva */
+      --font-display: 'Montserrat', sans-serif;
+      --font-body:    'Poppins', sans-serif;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* RESET BÁSICO                                                     */
+    /* ------------------------------------------------------------------ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      line-height: 1.6;
+      color: #333;
+      background: var(--color-cream);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* NAVBAR FIXA                                                       */
+    /* ------------------------------------------------------------------ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--color-red);
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .navbar li {
+      font-weight: 500;
+    }
+
+    .navbar a:hover {
+      color: var(--color-olive);
+    }
+
+    /* Hamburger (mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: var(--color-red);
+    }
+
+    @media (max-width: 768px) {
+      .navbar ul {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: rgba(255,255,255,0.95);
+        flex-direction: column;
+        width: 200px;
+        padding: 1rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+      }
+
+      .navbar ul.open {
+        transform: translateX(0);
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* HERO                                                               */
+    /* ------------------------------------------------------------------ */
+    .hero {
+      height: 100vh;
+      min-height: 600px;
+      background: url('static/img/ia_1.png') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(139,0,0,0.7), rgba(84,107,47,0.5));
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      font-weight: 900;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero .cta {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: var(--color-gold);
+      color: var(--color-red);
+      font-weight: 600;
+      border-radius: 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .hero .cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--color-gold);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* SECCIONES                                                          */
+    /* ------------------------------------------------------------------ */
+    section {
+      padding: 4rem 2rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--color-red);
+      position: relative;
+    }
+
+    .section-title::after {
+      content: "";
+      width: 80px;
+      height: 4px;
+      background: var(--color-gold);
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      transform: translateX(-50%);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* CARTA - GRID DE TARJETAS                                           */
+    /* ------------------------------------------------------------------ */
+    .grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    @media (min-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .card img {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 1.2rem;
+    }
+
+    .card-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--color-red);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-body p {
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+      color: #555;
+    }
+
+    .price {
+      font-weight: 600;
+      color: var(--color-olive);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* GALERÍA                                                            */
+    /* ------------------------------------------------------------------ */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .gallery img {
+      flex: 1 1 calc(33.333% - 1rem);
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* HISTORIA                                                            */
+    /* ------------------------------------------------------------------ */
+    .history {
+      background: var(--color-cream);
+      color: #333;
+    }
+
+    .history p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* MAPA Y CONTACTO                                                    */
+    /* ------------------------------------------------------------------ */
+    .contact {
+      background: var(--color-cream);
+    }
+
+    .contact .info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .contact .info h4 {
+      font-family: var(--font-display);
+      color: var(--color-red);
+    }
+
+    .contact .map {
+      margin-top: 2rem;
+      height: 300px;
+      background: #eaeaea;
+      border-radius: 12px;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* FOOTER                                                             */
+    /* ------------------------------------------------------------------ */
+    footer {
+      background: var(--color-red);
+      color: #fff;
+      padding: 3rem 2rem;
+    }
+
+    .footer-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+
+    .footer-top .logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--color-gold);
+    }
+
+    .footer-top .desc {
+      max-width: 300px;
+    }
+
+    .footer-top ul {
+      list-style: none;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* BOTÓN WHATSAPP FLOTA                                               */
+    /* ------------------------------------------------------------------ */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #25D366;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1000;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    .whatsapp-float img {
+      width: 35px;
+      height: 35px;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* ANIMACIONES DE SCROLL                                               */
+    /* ------------------------------------------------------------------ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">Mil Pasta</div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <ul id="nav-links">
+      <li><a href="#carta">Carta</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#historia">Historia</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <h1>Mil Pasta</h1>
+      <p>Descubre la auténtica tradición italiana en cada bocado.</p>
+      <a href="#carta" class="cta">Ver Carta</a>
+    </div>
+  </section>
+
+  <!-- CARTA -->
+  <section id="carta" class="fade-in">
+    <h2 class="section-title">Nuestra Carta</h2>
+
+    <!-- ENTRADAS -->
+    <h3 class="section-subtitle">Entradas</h3>
+    <div class="grid">
+      <!-- Bruschetta -->
+      <div class="card">
+        <img src="static/img/ia_2.png" alt="Bruschetta">
+        <div class="card-body">
+          <h3>Bruschetta</h3>
+          <p>Pan tostado con tomate, albahaca y aceite de oliva virgen.</p>
+          <div class="price">$8</div>
+        </div>
+      </div>
+
+      <!-- Carpaccio -->
+      <div class="card">
+        <img src="static/img/ia_3.png" alt="Carpaccio">
+        <div class="card-body">
+          <h3>Carpaccio</h3>
+          <p>Finas láminas de carne de res, rúcula y queso parmesano.</p>
+          <div class="price">$12</div>
+        </div>
+      </div>
+
+      <!-- Antipasto -->
+      <div class="card">
+        <img src="static/img/ia_4.png" alt="Antipasto">
+        <div class="card-body">
+          <h3>Antipasto</h3>
+          <p>Selección de embutidos, quesos y aceitunas italianas.</p>
+          <div class="price">$10</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASTAS -->
+    <h3 class="section-subtitle">Pastas</h3>
+    <div class="grid">
+      <!-- Carbonara -->
+      <div class="card">
+        <img src="static/img/ia_5.png" alt="Carbonara">
+        <div class="card-body">
+          <h3>Carbonara</h3>
+          <p>Espagueti con huevo, panceta, queso pecorino y pimienta.</p>
+          <div class="price">$14</div>
+        </div>
+      </div>
+
+      <!-- Bolognesa -->
+      <div class="card">
+        <img src="static/img/ia_6.png" alt="Bolognesa">
+        <div class="card-body">
+          <h3>Bolognesa</h3>
+          <p>Tagliatelle con ragú de carne, tomate y hierbas aromáticas.</p>
+          <div class="price">$15</div>
+        </div>
+      </div>
+
+      <!-- Pesto -->
+      <div class="card">
+        <img src="static/img/ia_7.png" alt="Pesto">
+        <div class="card-body">
+          <h3>Pesto</h3>
+          <p>Fusilli con salsa de albahaca, piñones, ajo y parmesano.</p>
+          <div class="price">$13</div>
+        </div>
+      </div>
+
+      <!-- Ravioli -->
+      <div class="card">
+        <img src="static/img/ia_8.png" alt="Ravioli">
+        <div class="card-body">
+          <h3>Ravioli</h3>
+          <p>Relleno de ricotta y espinacas, servido con mantequilla y salvia.</p>
+          <div class="price">$16</div>
+        </div>
+      </div>
+
+      <!-- Lasagna -->
+      <div class="card">
+        <img src="static/img/ia_9.png" alt="Lasagna">
+        <div class="card-body">
+          <h3>Lasagna</h3>
+          <p>Capas de pasta, carne, bechamel y mozzarella gratinada.</p>
+          <div class="price">$18</div>
+        </div>
+      </div>
+
+      <!-- Aglio e Olio -->
+      <div class="card">
+        <img src="static/img/ia_10.png" alt="Aglio e Olio">
+        <div class="card-body">
+          <h3>Aglio e Olio</h3>
+          <p>Espagueti con ajo, aceite de oliva, chile y perejil.</p>
+          <div class="price">$12</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLATOS PRINCIPALES -->
+    <h3 class="section-subtitle">Platos Principales</h3>
+    <div class="grid">
+      <!-- Risotto -->
+      <div class="card">
+        <img src="static/img/ia_11.png" alt="Risotto">
+        <div class="card-body">
+          <h3>Risotto</h3>
+          <p>Arroz cremoso con setas silvestres y queso parmesano.</p>
+          <div class="price">$17</div>
+        </div>
+      </div>
+
+      <!-- Ossobuco -->
+      <div class="card">
+        <img src="static/img/ia_12.png" alt="Ossobuco">
+        <div class="card-body">
+          <h3>Ossobuco</h3>
+          <p>Estofado de jarrete de ternera con gremolata y puré de patatas.</p>
+          <div class="price">$22</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POSTRES -->
+    <h3 class="section-subtitle">Postres</h3>
+    <div class="grid">
+      <!-- Tiramisú -->
+      <div class="card">
+        <img src="static/img/ia_13.png" alt="Tiramisú">
+        <div class="card-body">
+          <h3>Tiramisú</h3>
+          <p>Capas de bizcocho empapado en café, mascarpone y cacao.</p>
+          <div class="price">$9</div>
+        </div>
+      </div>
+
+      <!-- Panna Cotta -->
+      <div class="card">
+        <img src="static/img/ia_14.png" alt="Panna Cotta">
+        <div class="card-body">
+          <h3>Panna Cotta</h3>
+          <p>Crema cuajada con coulis de frutos rojos.</p>
+          <div class="price">$8</div>
+        </div>
+      </div>
+
+      <!-- Cannoli -->
+      <div class="card">
+        <img src="static/img/ia_15.png" alt="Cannoli">
+        <div class="card-body">
+          <h3>Cannoli</h3>
+          <p>Crujiente tubo de masa relleno de ricotta y chocolate.</p>
+          <div class="price">$7</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BEBIDAS -->
+    <h3 class="section-subtitle">Bebidas</h3>
+    <div class="grid">
+      <!-- Vinos Italianos -->
+      <div class="card">
+        <img src="static/img/ia_16.png" alt="Vinos Italianos">
+        <div class="card-body">
+          <h3>Vinos Italianos</h3>
+          <p>Selección de tintos y blancos de las regiones más prestigiosas.</p>
+          <div class="price">$6 / copa</div>
+        </div>
+      </div>
+
+      <!-- Café Espresso -->
+      <div class="card">
+        <img src="static/img/ia_17.png" alt="Café Espresso">
+        <div class="card-body">
+          <h3>Café Espresso</h3>
+          <p>Intenso y aromático, el cierre perfecto para tu comida.</p>
+          <div class="price">$4</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERÍA DE AMBIENTE -->
+  <section id="galeria" class="fade-in">
+    <h2 class="section-title">Ambiente</h2>
+    <div class="gallery">
+      <img src="static/img/ia_18.png" alt="Ambiente 1">
+      <img src="static/img/ia_19.png" alt="Ambiente 2">
+      <img src="static/img/ia_20.png" alt="Ambiente 3">
+      <!-- Repetimos algunas fotos de platos para dar variedad visual -->
+      <img src="static/img/ia_5.png" alt="Detalle 1">
+      <img src="static/img/ia_9.png" alt="Detalle 2">
+      <img src="static/img/ia_13.png" alt="Detalle 3">
+    </div>
+  </section>
+
+  <!-- NUESTRA HISTORIA -->
+  <section id="historia" class="history fade-in">
+    <h2 class="section-title">Nuestra Historia</h2>
+    <p>
+      Desde 1998, Mil Pasta lleva la tradición familiar de la cocina italiana a cada
+      rincón de la ciudad. Nacidos en una pequeña trattoria de la Toscana, nuestros
+      fundadores trasladaron la pasión por la pasta artesanal a un espacio moderno,
+      donde la calidez del hogar se combina con la elegancia del diseño minimalista.
+      Cada receta se elabora con ingredientes locales y el toque de nuestras abuelas,
+      manteniendo viva la esencia de la auténtica comida italiana.
+    </p>
+  </section>
+
+  <!-- CONTACTO Y MAPA -->
+  <section id="contacto" class="contact fade-in">
+    <h2 class="section-title">Contacto & Ubicación</h2>
+    <div class="info">
+      <h4>Dirección</h4>
+      <p>Calle de la Pasta 123, Ciudad Gourmet, País</p>
+
+      <h4>Horario</h4>
+      <p>Lunes - Viernes: 12:00 – 23:00<br>Sábados y Domingos: 13:00 – 00:00</p>
+
+      <h4>Reserva</h4>
+      <p>WhatsApp: <a href="https://wa.me/[TU WHATSAPP]" target="_blank">[TU WHATSAPP]</a></p>
+      <p>Email: <a href="mailto:[TU EMAIL]">[TU EMAIL]</a></p>
+    </div>
+
+    <div class="map" id="map">
+      <!-- Aquí iría un iframe de Google Maps; se deja como placeholder -->
+      <p style="text-align:center; line-height:300px; color:#777;">Mapa interactivo</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="logo">Mil Pasta</div>
+      <div class="desc">
+        <p>Experiencia culinaria que celebra la tradición italiana con un toque contemporáneo.</p>
+      </div>
+      <ul>
+        <li><a href="#carta">Carta</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#historia">Historia</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      © 2024 Mil Pasta – Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <!-- BOTÓN WHATSAPP FLOTA -->
+  <a href="https://wa.me/[TU WHATSAPP]" class="whatsapp-float" target="_blank" aria-label="Reserva por WhatsApp">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  </a>
+
+  <!-- SCRIPTS -->
+  <script>
+    // --------------------------------------------------------------------
+    // Menú hamburguesa (mobile)
+    // --------------------------------------------------------------------
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // --------------------------------------------------------------------
+    // IntersectionObserver para animaciones de fade‑in
+    // --------------------------------------------------------------------
+    const observerOptions = {
+      threshold: 0.15
+    };
+
+    const fadeInObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(section => {
+      fadeInObserver.observe(section);
+    });
+
+    // --------------------------------------------------------------------
+    // Contador de estadísticas (ejemplo ficticio)
+    // --------------------------------------------------------------------
+    const stats = [
+      { selector: '#years', target: 25 },
+      { selector: '#clients', target: 1200 },
+      { selector: '#dishes', target: 80 }
+    ];
+
+    function animateCount(el, target) {
+      let start = 0;
+      const duration = 2000;
+      const stepTime = Math.abs(Math.floor(duration / target));
+      const timer = setInterval(() => {
+        start += 1;
+        el.textContent = start;
+        if (start >= target) clearInterval(timer);
+      }, stepTime);
+    }
+
+    // Si deseas mostrar los contadores, agrega los elementos en HTML y
+    // descomenta la siguiente línea:
+    // stats.forEach(s => animateCount(document.querySelector(s.selector), s.target));
+  </script>
+</body>
+</html>
